@@ -65,6 +65,7 @@ class TodoUI(ScrollArea):
         self.todo_list = tree_view(self)
         self.todo_list.setColumnCount(1)
         self.todo_list.setHeaderLabels(['TASK'])
+        self.todo_list.setIndentation(35)
         
         self.initTaskinfoUI()
         self.tree_layout.addWidget(self.todo_list)

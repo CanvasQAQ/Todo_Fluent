@@ -27,7 +27,7 @@ class MainWindow(FluentWindow):
         font_id = QFontDatabase.addApplicationFont('app/resource/fonts/LXGWWenKaiMono-Regular.ttf')
         # print(font_id)
     def initWindow(self):
-        self.resize(900, 900)
+        self.resize(1200, 900)
         self.setMinimumWidth(760)
         self.setWindowIcon(QIcon("app/resource/images/logo.ico"))
         self.setWindowTitle('Todo List')
