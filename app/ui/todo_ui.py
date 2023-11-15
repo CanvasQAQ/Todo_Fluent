@@ -11,8 +11,8 @@ from qfluentwidgets import (ScrollArea, PushButton, ToolButton, FluentIcon,
 from qfluentwidgets import LineEdit, PrimaryPushButton, DateTimeEdit, IndeterminateProgressRing
 from qfluentwidgets import FlowLayout
 from ..common.style_sheet import StyleSheet
-from ..view.self_widgets import self_LineEdit, self_TextEdit, self_BodyLabel
-from ..view.tree_view import tree_view
+from .self_widgets import self_LineEdit, self_TextEdit, self_BodyLabel
+from .tree_view import tree_view
 
 
 
