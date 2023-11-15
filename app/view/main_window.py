@@ -12,6 +12,7 @@ from qfluentwidgets import FluentIcon as FIF
 from .todo_interface import TodoInterface
 from ..common.config import cfg
 from ..common.style_sheet import StyleSheet
+from ..resource.resource import *
 
 class MainWindow(FluentWindow):
 
@@ -24,12 +25,12 @@ class MainWindow(FluentWindow):
         # self.connectSignalToSlot()
         self.initNavigation()
         # print(QCoreApplication.applicationDirPath() )
-        font_id = QFontDatabase.addApplicationFont('app/resource/fonts/LXGWWenKaiMono-Regular.ttf')
+        font_id = QFontDatabase.addApplicationFont(':fonts/LXGWWenKaiMono-Regular.ttf')
         # print(font_id)
     def initWindow(self):
         self.resize(1200, 900)
         self.setMinimumWidth(760)
-        self.setWindowIcon(QIcon("app/resource/images/logo.ico"))
+        self.setWindowIcon(QIcon(":images/logo.ico"))
         self.setWindowTitle('Todo List')
         # StyleSheet.HOME_INTERFACE.apply(self)
         self.setMicaEffectEnabled(cfg.get(cfg.micaEnabled))

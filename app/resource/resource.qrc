@@ -1,5 +1,10 @@
 <RCC>
-    <qresource prefix="/app">
+    <qresource>
         <file>images/logo.ico</file>
+        <file>qss/dark/todo_interface.qss</file>
+        <file>qss/light/todo_interface.qss</file>
+        <file>qss/dark/tree_view.qss</file>
+        <file>qss/light/tree_view.qss</file>
+        <file>fonts/LXGWWenKaiMono-Regular.ttf</file>
     </qresource>
 </RCC>
