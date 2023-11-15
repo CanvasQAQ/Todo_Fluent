@@ -53,7 +53,7 @@ class TodoInterface(TodoUI):
         self.task_description.textChanged.connect(self.on_TaskDescriptionChange)
 
     def addTask(self):
-        self.tryDisconnectItemChanged(1)
+        self.tryDisconnectItemChanged()
         task_name = self.task_input.text()
         if task_name:
             if self.todo_list.selectedItems():
@@ -67,10 +67,10 @@ class TodoInterface(TodoUI):
             self.taskFunc.save_task()
             self.updateTreeView()
             self.task_input.clear()
-        self.ReConnectItemChanged(1)
+        self.ReConnectItemChanged()
     
     def deleteTask(self):
-        self.tryDisconnectItemChanged(1)
+        self.tryDisconnectItemChanged()
         current_tasks = self.todo_list.selectedItems()
         if current_tasks:
             for task in current_tasks:
@@ -78,13 +78,13 @@ class TodoInterface(TodoUI):
                 self.taskFunc.remove_task(task_id)
             self.taskFunc.save_task()
             self.updateTreeView()
-        self.ReConnectItemChanged(1)
+        self.ReConnectItemChanged()
 
 
     def updateTreeView(self):
         treeview_list = self.taskFunc.get_treeview_list()
         self.todo_list.init_treeview_list(treeview_list)
-        self.todo_list.expandAll()
+        # self.todo_list.expandAll()
 
 
     def debug_temp(self):
@@ -170,24 +170,15 @@ class TodoInterface(TodoUI):
         except:
             pass
 
-    def tryDisconnectItemChanged(self, type=2):
-        if type == 1:
-            try:
-                self.todo_list.itemChanged.disconnect(self.taskStatusChange)
-            except:
-                pass
-        elif type == 2:
-            try:
-                self.todo_list.itemChanged.disconnect()
-            except:
-                pass
+    def tryDisconnectItemChanged(self):
+        try:
+            self.todo_list.itemChanged.disconnect()
+        except:
+            pass
 
-    def ReConnectItemChanged(self, type=2):
-        if type == 1:
-            self.todo_list.itemChanged.connect(self.taskStatusChange)
-        elif type == 2:
-            self.todo_list.reconnect_item_changed()
-            self.todo_list.itemChanged.connect(self.taskStatusChange)
+    def ReConnectItemChanged(self):
+        self.todo_list.reconnect_item_changed()
+        self.todo_list.itemChanged.connect(self.taskStatusChange)
         
 
     def DisconnectInfo(self):

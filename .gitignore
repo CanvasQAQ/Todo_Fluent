@@ -1,4 +1,4 @@
 *.pyc
 __pycache__/
 data/
-resources/resoure_rc.py
+app/resource/resource_rc.py

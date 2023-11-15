@@ -81,14 +81,15 @@ class TaskDelegate():
         self.task_dict[task_id].setStats('complete')
         self.task_dict[task_id].setEndTime()
         for child_id in self.task_dict[task_id].getChildren():
-            self.complete_task(child_id)
+            if self.task_dict[child_id].getStats() != 'complete':
+                self.complete_task(child_id)
     
     def undo_task(self, task_id):
         #undo the task just means mark the task stats as 'start'
         self.task_dict[task_id].setStats('start')
         self.task_dict[task_id].setEndTime()
-        for child_id in self.task_dict[task_id].getChildren():
-            self.undo_task(child_id)
+        # for child_id in self.task_dict[task_id].getChildren():
+        #     self.undo_task(child_id)
     
     def save_task(self):
         #save the self.task_dict to the pkl file
