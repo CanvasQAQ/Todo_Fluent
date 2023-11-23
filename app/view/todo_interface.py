@@ -94,19 +94,22 @@ class TodoInterface(TodoUI):
     def itemClick(self,item):
         self.DisconnectInfo()
         current_task = item
-        current_task_id = current_task.data(0,Qt.UserRole)
-        if current_task_id in self.taskFunc.task_dict:
-            task = self.taskFunc.task_dict[current_task_id]
-            # self.info_taskname.textChanged.disconnect()
-            self.taskName.setText(self.tr(task.task_name))
-            # self.info_taskname.textChanged.connect(self.task_name_change)
-            self.task_startTime.setDateTime(task.start_time)
-            self.task_description.setHtml(task.description)
-            if task.complete_time:
-                self.task_completeTime.setDateTime(task.complete_time)
-            else:
-                self.task_completeTime.setDateTime(datetime.now())
-            self.enableTaskInfo()
+        if not item:
+            pass
+        else:
+            current_task_id = current_task.data(0,Qt.UserRole)
+            if current_task_id in self.taskFunc.task_dict:
+                task = self.taskFunc.task_dict[current_task_id]
+                # self.info_taskname.textChanged.disconnect()
+                self.taskName.setText(self.tr(task.task_name))
+                # self.info_taskname.textChanged.connect(self.task_name_change)
+                self.task_startTime.setDateTime(task.start_time)
+                self.task_description.setHtml(task.description)
+                if task.complete_time:
+                    self.task_completeTime.setDateTime(task.complete_time)
+                else:
+                    self.task_completeTime.setDateTime(datetime.now())
+                self.enableTaskInfo()
         self.ReConnectInfo()
 
     def setInfoToDefault(self):
@@ -194,6 +197,10 @@ class TodoInterface(TodoUI):
         self.task_description.textChanged.connect(self.on_TaskDescriptionChange)
 
     def taskStatusChange(self, item, column):
+        
+        self.tryDisconnectItemClicked()
+        # self.tryDisconnectItemChanged()
+        self.todo_list.itemChanged.disconnect(self.taskStatusChange)
         if column == 0:  # 如果更改的是第一列
             current_task_id = item.data(0,Qt.UserRole)
             if item.checkState(column) == Qt.Checked :
@@ -201,3 +208,7 @@ class TodoInterface(TodoUI):
             else:
                 self.taskFunc.undo_task(current_task_id)
             self.taskFunc.save_task()
+            self.updateTreeView()
+        # self.ReConnectItemChanged()
+        self.todo_list.itemChanged.connect(self.taskStatusChange)
+        self.todo_list.itemClicked.connect(self.itemClick)

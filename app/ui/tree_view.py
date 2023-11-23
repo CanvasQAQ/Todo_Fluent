@@ -41,36 +41,42 @@ class tree_view(TreeWidget):
             self.collapseItem(item)
         else:
             self.expandItem(item)
-        parent = item.parent()
-        expand_flag = False #default is try to collapse
-        if parent:
-            for i in range(parent.childCount()):
-                if parent.child(i).checkState(0) == Qt.Unchecked:
-                    expand_flag = True
-                    break
-            if expand_flag:
-                self.only_unchecked(parent)
-                self.expandItem(parent)
-            else:
-                self.only_checked(parent)
-                self.collapseItem(parent)
+        # parent = item.parent()
+        # expand_flag = False #default is try to collapse
+        # if parent:
+        #     for i in range(parent.childCount()):
+        #         if parent.child(i).checkState(0) == Qt.Unchecked:
+        #             expand_flag = True
+        #             break
+        #     if expand_flag:
+        #         self.only_unchecked(parent)
+        #         self.expandItem(parent)
+        #     else:
+        #         self.only_checked(parent)
+        #         self.collapseItem(parent)
                 
+    def auto_expand_all(self,item=None):
+        if not item:
+            item = self.invisibleRootItem()
+        self.auto_expand(item)
+        for i in range(item.childCount()):
+            self.auto_expand_all(item.child(i))
 
     def only_unchecked(self, item):
         font = item.font(0)
         font.setStrikeOut(False)
-        self.itemChanged.disconnect(self.handleItemChanged)
+        # self.itemChanged.disconnect(self.handleItemChanged)
         item.setCheckState(0,Qt.Unchecked)
         item.setFont(0, font)
-        self.itemChanged.connect(self.handleItemChanged)
+        # self.itemChanged.connect(self.handleItemChanged)
     
     def only_checked(self, item):
         font = item.font(0)
         font.setStrikeOut(True)
-        self.itemChanged.disconnect(self.handleItemChanged)
+        # self.itemChanged.disconnect(self.handleItemChanged)
         item.setCheckState(0,Qt.Checked)
         item.setFont(0, font)
-        self.itemChanged.connect(self.handleItemChanged)
+        # self.itemChanged.connect(self.handleItemChanged)
 
 
     def init_treeview_list(self,treeview_list):
@@ -78,7 +84,7 @@ class tree_view(TreeWidget):
         self.delete_all_item()
         root_item.setData(0,Qt.UserRole,0)
         self.load_item(root_item, treeview_list)
-        # self.auto_expand(root_item)
+        self.auto_expand_all()
         
     def load_item(self,parent_item,data):
         for item_data in data:

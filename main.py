@@ -9,7 +9,10 @@ from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QApplication
 from app.view.main_window import MainWindow
 
-script_dir = os.path.dirname(os.path.realpath(__file__))
+if getattr(sys, 'frozen', False):
+    script_dir = os.path.dirname(sys.executable)
+elif __file__:
+    script_dir = os.path.dirname(os.path.realpath(__file__))
 os.chdir(script_dir)
 
 app = QApplication(sys.argv)

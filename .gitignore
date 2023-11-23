@@ -2,3 +2,4 @@
 __pycache__/
 data/
 app/resource/resource_rc.py
+.vscode/

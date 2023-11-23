@@ -26,6 +26,7 @@ class TaskDelegate():
         each child task have same format
         '''
         # self.treeview_list = []
+        self.refresh_task_status()
         temp_treeview_list=["root",0,"start"]
         temp_treeview_list = self.get_treeview_list_child(0,temp_treeview_list)
         self.treeview_list = temp_treeview_list
@@ -107,3 +108,36 @@ class TaskDelegate():
             with open(full_path, 'rb') as f:
                 self.task_dict = pickle.load(f)
         #load the task from the file
+
+    def judge_task_complete(self, task_id):
+        #judge if the task is complete
+        #if the task is complete, return True
+        #if the task is not complete, return False
+        #if the task is not complete, but all the child task is complete, then the task is complete
+        if self.task_dict[task_id].getStats() == 'complete':
+            if not self.task_dict[task_id].getChildren():
+                return True
+            else:
+                for child_id in self.task_dict[task_id].getChildren():
+                    if not self.judge_task_complete(child_id):
+                        return False
+                return True
+        else:
+            if not self.task_dict[task_id].getChildren():
+                return False
+            else:
+                for child_id in self.task_dict[task_id].getChildren():
+                    if not self.judge_task_complete(child_id):
+                        return False
+                return True
+    
+    def refresh_task_status(self):
+        #refresh the task status, if the task is not complete, but all the child task is complete, then the task status should be complete
+        #if the task is complete, but some child task is not complete, then the task status should be start
+        for task_id in self.task_dict:
+            if self.task_dict[task_id].getStats() != 'complete':
+                if self.judge_task_complete(task_id):
+                    self.task_dict[task_id].setStats('complete')
+            elif self.task_dict[task_id].getStats() == 'complete':
+                if not self.judge_task_complete(task_id):
+                    self.task_dict[task_id].setStats('start')
